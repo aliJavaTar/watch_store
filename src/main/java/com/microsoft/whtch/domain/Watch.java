@@ -32,4 +32,8 @@ public class Watch extends BaseEntity<Long> {
     @JoinColumn(name = "discount_id", referencedColumnName = "id")
     private Discount discount;
 
+    public void applyDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
 }
