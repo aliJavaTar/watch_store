@@ -30,4 +30,8 @@ public class Discount extends BaseEntity<Long> {
 
     @OneToOne(mappedBy = "discount")
     private Watch watch;
+
+    public void setWatch(Watch watch) {
+        this.watch = watch;
+    }
 }

@@ -23,9 +23,7 @@ public class WatchTest {
     void shouldCalculateWatchPrice() {
         Discount discount = Discount.create(1L, 200L, 3L);
         Watch watch = Watch.create(1L, "Rolex", 100L);
-
         watch.applyDiscount(discount);
-
 
     }
 
