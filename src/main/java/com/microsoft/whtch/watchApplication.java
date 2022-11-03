@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WhtchApplication {
+public class watchApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WhtchApplication.class, args);
+        SpringApplication.run(watchApplication.class, args);
     }
 
 }
