@@ -1,37 +1,25 @@
 package com.microsoft.whtch.domain;
 
-import com.microsoft.whtch.domain.base.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Getter
-@NoArgsConstructor
-@Entity
-@Table(name = "discount")
-public class Discount extends BaseEntity<Long> {
-    private Long amountDiscount;
-    private Long count;
+public class Discount {
+    private final Long amountDiscount;
+    private final int count;
 
-    private Discount(Long id, Long amountDiscount, Long count) {
-        super(id);
+    private Discount(Long amountDiscount, int count) {
         this.amountDiscount = amountDiscount;
         this.count = count;
     }
 
-    public static Discount create(Long id, Long amountDiscount, Long count) {
-        return new Discount(id, amountDiscount, count);
+    public static Discount create(Long amountDiscount, int count) {
+        return new Discount(amountDiscount, count);
     }
 
-    @OneToOne(mappedBy = "discount")
-    private Watch watch;
+    public Long calculatePriceOf(int itemCount, Long unitPrice) {
+        int numberOfDiscountedItems = Math.abs(itemCount / this.count);
+        int numberOfItemsWithoutDiscount = Math.abs(itemCount % this.count);
 
-    public void setWatch(Watch watch) {
-        this.watch = watch;
+        return numberOfDiscountedItems * this.amountDiscount + numberOfItemsWithoutDiscount * unitPrice;
     }
 }
