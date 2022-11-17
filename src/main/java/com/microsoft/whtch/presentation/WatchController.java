@@ -1,6 +1,6 @@
 package com.microsoft.whtch.presentation;
 
-import com.microsoft.whtch.service.WatchService;
+import com.microsoft.whtch.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +12,14 @@ import java.util.List;
 @RestController
 public class WatchController {
 
-    private final WatchService watchService;
+    private final OrderService orderService;
 
-    public WatchController(WatchService watchService) {
-        this.watchService = watchService;
+    public WatchController(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @PostMapping("/checkout")
     public ResponseEntity<Long> buyWatch(@RequestBody List<Long> ids) {
-        return new ResponseEntity<>(watchService.getWatchPrice(ids), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrderTotalPrice(ids), HttpStatus.OK);
     }
 }
