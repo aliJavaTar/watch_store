@@ -12,7 +12,6 @@ public class MySqlWatchRepository implements WatchRepository {
     }
 
     @Override
-
     public Watch findById(Long id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("not found"));
     }
