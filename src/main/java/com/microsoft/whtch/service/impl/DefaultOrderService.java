@@ -36,7 +36,7 @@ public class DefaultOrderService implements OrderService {
             order.addOrderLine(watch, count);
         });
 
-        return order.totalPrice();
+        return order.totalPrice().getAmount();
     }
 
 }

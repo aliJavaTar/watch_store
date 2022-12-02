@@ -10,11 +10,11 @@ public class Order {
         this.orderLines.add(new OrderLine(watch, count));
     }
 
-    public Long totalPrice() {
-        Long total = 0L;
+    public Money totalPrice() {
+        Money total = Money.of(0L);
 
         for (OrderLine orderLine : this.orderLines) {
-            total += orderLine.calculatePrice();
+            total = total.add(orderLine.calculatePrice());
         }
 
         return total;

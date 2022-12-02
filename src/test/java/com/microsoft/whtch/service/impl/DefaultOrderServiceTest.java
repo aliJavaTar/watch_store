@@ -1,5 +1,6 @@
 package com.microsoft.whtch.service.impl;
 
+import com.microsoft.whtch.domain.Money;
 import com.microsoft.whtch.domain.Watch;
 import com.microsoft.whtch.domain.WatchRepository;
 import org.junit.jupiter.api.Test;
@@ -16,16 +17,16 @@ class DefaultOrderServiceTest {
     void shouldGetOrderTotalPrice() {
         WatchRepository watchRepository = mock(WatchRepository.class);
 
-        Watch rolex = Watch.create(1L, "Rolex", 100L);
+        Watch rolex = Watch.create(1L, "Rolex", Money.of(100L));
         doReturn(rolex).when(watchRepository).findById(1L);
 
-        Watch michael = Watch.create(2L, "Michael", 80L);
+        Watch michael = Watch.create(2L, "Michael", Money.of(80L));
         doReturn(michael).when(watchRepository).findById(2L);
 
-        Watch swatch = Watch.create(3L, "Swatch", 50L);
+        Watch swatch = Watch.create(3L, "Swatch", Money.of(50L));
         doReturn(swatch).when(watchRepository).findById(3L);
 
-        Watch casio = Watch.create(4L, "Casio", 30L);
+        Watch casio = Watch.create(4L, "Casio", Money.of(30L));
         doReturn(casio).when(watchRepository).findById(4L);
 
         DefaultOrderService service = new DefaultOrderService(watchRepository);
