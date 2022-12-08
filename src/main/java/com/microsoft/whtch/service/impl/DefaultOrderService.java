@@ -4,7 +4,9 @@ package com.microsoft.whtch.service.impl;
 import com.microsoft.whtch.domain.Order;
 import com.microsoft.whtch.domain.Watch;
 import com.microsoft.whtch.domain.WatchRepository;
+import com.microsoft.whtch.domain.WatchRepository;
 import com.microsoft.whtch.service.OrderService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,7 +19,7 @@ public class DefaultOrderService implements OrderService {
 
     private final WatchRepository repository;
 
-    public DefaultOrderService(WatchRepository repository) {
+    public DefaultOrderService(@Qualifier("inMemoryWatchRepository") WatchRepository repository) {
         this.repository = repository;
     }
 
