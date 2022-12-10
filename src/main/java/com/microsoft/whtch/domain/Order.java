@@ -10,6 +10,10 @@ public class Order {
         this.orderLines.add(new OrderLine(watch, count));
     }
 
+    public Set<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
     public Money totalPrice() {
         Money total = Money.of(0L);
 

@@ -1,11 +1,8 @@
-package com.microsoft.whtch.service.impl;
+package com.microsoft.whtch.application.impl;
 
 
-import com.microsoft.whtch.domain.Order;
-import com.microsoft.whtch.domain.Watch;
-import com.microsoft.whtch.domain.WatchRepository;
-import com.microsoft.whtch.domain.WatchRepository;
-import com.microsoft.whtch.service.OrderService;
+import com.microsoft.whtch.domain.*;
+import com.microsoft.whtch.application.OrderService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +15,12 @@ import java.util.Map;
 public class DefaultOrderService implements OrderService {
 
     private final WatchRepository repository;
+    private final OrderPriceCalculator calculator;
 
-    public DefaultOrderService(@Qualifier("inMemoryWatchRepository") WatchRepository repository) {
+    public DefaultOrderService(
+            @Qualifier("inMemoryWatchRepository") WatchRepository repository, OrderPriceCalculator calculator) {
         this.repository = repository;
+        this.calculator = calculator;
     }
 
     public Long getOrderTotalPrice(List<Long> ids) {
@@ -38,7 +38,14 @@ public class DefaultOrderService implements OrderService {
             order.addOrderLine(watch, count);
         });
 
-        return order.totalPrice().getAmount();
+        // We can call totalPrice from entity directly
+//        Money totalPrice = order.totalPrice().getAmount();
+//        OrderPriceCalculator calculator = new PureOrderPriceCalculator();
+
+        // or we can use a domain service (pure or impure)
+        Money totalPrice = calculator.calculateTotalPrice(order);
+
+        return totalPrice.getAmount();
     }
 
 }

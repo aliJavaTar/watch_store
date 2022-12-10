@@ -1,6 +1,6 @@
 package com.microsoft.whtch.presentation;
 
-import com.microsoft.whtch.service.OrderService;
+import com.microsoft.whtch.application.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
