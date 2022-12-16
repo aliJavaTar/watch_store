@@ -1,9 +1,8 @@
 package com.microsoft.whtch.application.impl;
 
 
-import com.microsoft.whtch.domain.*;
 import com.microsoft.whtch.application.OrderService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.microsoft.whtch.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -14,12 +13,17 @@ import java.util.Map;
 @Service
 public class DefaultOrderService implements OrderService {
 
-    private final WatchRepository repository;
+    private final WatchRepository watchRepository;
+
+    private final OrderRepository orderRepository;
     private final OrderPriceCalculator calculator;
 
     public DefaultOrderService(
-            @Qualifier("inMemoryWatchRepository") WatchRepository repository, OrderPriceCalculator calculator) {
-        this.repository = repository;
+            WatchRepository watchRepository,
+            OrderRepository orderRepository,
+            OrderPriceCalculator calculator) {
+        this.watchRepository = watchRepository;
+        this.orderRepository = orderRepository;
         this.calculator = calculator;
     }
 
@@ -31,10 +35,10 @@ public class DefaultOrderService implements OrderService {
             orderCountPerItem.put(id, count);
         });
 
-        Order order = new Order();
+        Order order = Order.place(orderRepository.nextId());
 
         orderCountPerItem.forEach((id, count) -> {
-            Watch watch = repository.findById(id);
+            Watch watch = watchRepository.findById(id);
             order.addOrderLine(watch, count);
         });
 
@@ -46,6 +50,13 @@ public class DefaultOrderService implements OrderService {
         Money totalPrice = calculator.calculateTotalPrice(order);
 
         return totalPrice.getAmount();
+    }
+
+    @Override
+    public void accept(String id) {
+        Order order = orderRepository.findById(Long.valueOf(id));
+        order.accept();
+        orderRepository.save(order);
     }
 
 }

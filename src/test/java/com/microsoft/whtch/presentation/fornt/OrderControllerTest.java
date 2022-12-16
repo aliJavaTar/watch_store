@@ -1,4 +1,4 @@
-package com.microsoft.whtch.presentation;
+package com.microsoft.whtch.presentation.fornt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -16,18 +16,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class WatchControllerTest {
+public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
 
     @Test
     void shouldReturnTotal360() throws Exception {
         List<String> request = List.of("001", "002", "001", "004", "003");
         Integer expectedTotal = 360;
 
-        this.mockMvc.perform(post("/checkout")
+        this.mockMvc.perform(post("/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(request)))
                 .andExpect(status().isOk())
