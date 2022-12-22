@@ -4,11 +4,9 @@ package com.microsoft.whtch.application.impl;
 import com.microsoft.whtch.application.OrderService;
 import com.microsoft.whtch.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DefaultOrderService implements OrderService {
@@ -50,6 +48,33 @@ public class DefaultOrderService implements OrderService {
         Money totalPrice = calculator.calculateTotalPrice(order);
 
         return totalPrice.getAmount();
+    }
+
+    public void placeOrder(List<Long> ids) {
+        Map<Long, Integer> orderCountPerItem = new HashMap<>();
+
+        ids.forEach(id -> {
+            int count = Collections.frequency(ids, id);
+            orderCountPerItem.put(id, count);
+        });
+
+        Order order = Order.place(orderRepository.nextId());
+
+        orderCountPerItem.forEach((id, count) -> {
+            Watch watch = watchRepository.findById(id);
+            order.addOrderLine(watch, count);
+        });
+
+        orderRepository.save(order);
+
+//        try {
+            // transactionManger->beginTransaction();
+            // orderRepository.save(order);
+            // transactionManger->commit();
+//        } catch (Exception e) {
+            // transactionManger->rollback()
+//        }
+
     }
 
     @Override

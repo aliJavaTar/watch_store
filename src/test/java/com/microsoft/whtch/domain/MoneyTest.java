@@ -32,4 +32,12 @@ class MoneyTest {
         assertThat(multipliedResult.equals(Money.of(300L))).isTrue();
     }
 
+    @Test
+    void shouldCompareABiggerMoney() {
+        Money moneyOne = Money.of(100L);
+        Money moneyTwo = Money.of(200L);
+
+        assertThat(moneyTwo.isMoreThan(moneyOne)).isTrue();
+    }
+
 }

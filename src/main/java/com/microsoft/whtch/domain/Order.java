@@ -17,6 +17,10 @@ public class Order {
 
     public static Order place(Long id) {
         Order order = new Order(id);
+        // TODO: add test for this constraint
+        if (order.totalPrice().isMoreThan(Money.of(2000L)) ) {
+            throw new IllegalStateException();
+        }
         order.status = OrderStatus.NEW;
         return order;
     }

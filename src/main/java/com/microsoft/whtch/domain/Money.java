@@ -29,6 +29,14 @@ public class Money {
         return new Money(this.amount * number);
     }
 
+    public boolean isMoreThan(Money money) {
+        if (money == null || money.getClass() != this.getClass()) {
+            return false;
+        }
+
+        return money.amount < this.amount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
