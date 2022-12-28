@@ -8,21 +8,21 @@ class OrderLineTest {
 
     @Test
     void shouldCalculatePriceForAnOrderLine() {
-        Watch rolex = Watch.create(1L, "Rolex", 100L);
-        rolex.applyDiscount(Discount.create(200L, 3));
+        Watch rolex = Watch.create(1L, "Rolex", Money.of(100L));
+        rolex.applyDiscount(Discount.create(Money.of(200L), 3));
 
         OrderLine orderLine = new OrderLine(rolex, 3);
 
-        assertThat(orderLine.calculatePrice()).isEqualTo(200L);
+        assertThat(orderLine.calculatePrice().equals(Money.of(200L))).isTrue();
     }
 
     @Test
     void shouldCalculatePriceForAnOrderLineWithoutDiscount() {
-        Watch rolex = Watch.create(1L, "Rolex", 100L);
+        Watch rolex = Watch.create(1L, "Rolex", Money.of(100L));
 
         OrderLine orderLine = new OrderLine(rolex, 1);
 
-        assertThat(orderLine.calculatePrice()).isEqualTo(100L);
+        assertThat(orderLine.calculatePrice().equals(Money.of(100L))).isTrue();
     }
 
 }

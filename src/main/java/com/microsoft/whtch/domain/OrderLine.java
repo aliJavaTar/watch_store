@@ -9,11 +9,11 @@ public class OrderLine {
         this.count = count;
     }
 
-    public Long calculatePrice() {
+    public Money calculatePrice() {
         Discount discount = watch.getDiscount();
 
         if (discount == null) {
-            return watch.getPrice() * count;
+            return watch.getPrice().multiplyBy(count);
         }
 
         return discount.calculatePriceOf(count, watch.getPrice());

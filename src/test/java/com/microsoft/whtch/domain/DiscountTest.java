@@ -8,38 +8,38 @@ class DiscountTest {
 
     @Test
     void shouldCalculateDiscountedPriceWithExactNumberOfDiscountItem() {
-        Discount discount = Discount.create(120L, 2);
+        Discount discount = Discount.create(Money.of(120L), 2);
 
         int itemCount = 2;
-        Long unitPrice = 80L;
+        Money unitPrice = Money.of(80L);
 
-        Long discountedPrice = discount.calculatePriceOf(itemCount, unitPrice);
+        Money discountedPrice = discount.calculatePriceOf(itemCount, unitPrice);
 
-        assertThat(discountedPrice).isEqualTo(120L);
+        assertThat(discountedPrice.equals(Money.of(120L))).isTrue();
     }
 
     @Test
     void shouldCalculateDiscountedPriceWithMoreThanNumberOfDiscountItem() {
-        Discount discount = Discount.create(120L, 2);
+        Discount discount = Discount.create(Money.of(120L), 2);
 
         int itemCount = 3;
-        Long unitPrice = 80L;
+        Money unitPrice = Money.of(80L);
 
-        Long discountedPrice = discount.calculatePriceOf(itemCount, unitPrice);
+        Money discountedPrice = discount.calculatePriceOf(itemCount, unitPrice);
 
-        assertThat(discountedPrice).isEqualTo(200L);
+        assertThat(discountedPrice.equals(Money.of(200L))).isTrue();
     }
 
     @Test
     void shouldCalculateDiscountedPriceWithLessThanNumberOfDiscountItem() {
-        Discount discount = Discount.create(120L, 2);
+        Discount discount = Discount.create(Money.of(120L), 2);
 
         int itemCount = 1;
-        Long unitPrice = 80L;
+        Money unitPrice = Money.of(80L);
 
-        Long discountedPrice = discount.calculatePriceOf(itemCount, unitPrice);
+        Money discountedPrice = discount.calculatePriceOf(itemCount, unitPrice);
 
-        assertThat(discountedPrice).isEqualTo(80L);
+        assertThat(discountedPrice.equals(Money.of(80L))).isTrue();
     }
 
 }

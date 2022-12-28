@@ -7,16 +7,16 @@ import lombok.Getter;
 public class Watch extends BaseEntity<Long> {
 
     private final String name;
-    private final Long price;
+    private final Money price;
     private Discount discount;
 
-    private Watch(Long id, String name, Long price) {
+    private Watch(Long id, String name, Money price) {
         super(id);
         this.name = name;
         this.price = price;
     }
 
-    public static Watch create(Long id, String name, Long price) {
+    public static Watch create(Long id, String name, Money price) {
         return new Watch(id, name, price);
     }
 

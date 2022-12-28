@@ -8,17 +8,43 @@ class OrderTest {
 
     @Test
     void shouldCreateAnOrder() {
-        Watch rolex = Watch.create(1L, "Rolex", 100L);
-        rolex.applyDiscount(Discount.create(200L, 3));
+        Watch rolex = Watch.create(1L, "Rolex", Money.of(100L));
+        rolex.applyDiscount(Discount.create(Money.of(200L), 3));
 
-        Watch mk = Watch.create(2L, "Michael Kors", 80L);
-        mk.applyDiscount(Discount.create(120L, 2));
+        Watch mk = Watch.create(2L, "Michael Kors", Money.of(80L));
+        mk.applyDiscount(Discount.create(Money.of(120L), 2));
 
-        Order order = new Order();
+        Order order = Order.place(1L);
         order.addOrderLine(rolex, 7); // 500
         order.addOrderLine(mk, 3); // 200
 
-        assertThat(order.totalPrice()).isEqualTo(700L);
+        assertThat(order.totalPrice().equals(Money.of(700L))).isTrue();
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
     }
+
+    @Test
+    void shouldAcceptAnOrder() {
+        Watch rolex = Watch.create(1L, "Rolex", Money.of(100L));
+
+        Order order = Order.place(1L);
+        order.addOrderLine(rolex, 2);
+
+        order.accept();
+
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
+    }
+
+    @Test
+    void shouldRejectAnOrder() {
+        Watch rolex = Watch.create(1L, "Rolex", Money.of(100L));
+
+        Order order = Order.place(1L);
+        order.addOrderLine(rolex, 2);
+
+        order.reject();
+
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.REJECTED);
+    }
+
 
 }
