@@ -46,5 +46,18 @@ class OrderTest {
         assertThat(order.getStatus()).isEqualTo(OrderStatus.REJECTED);
     }
 
+    @Test
+    void should_Change_Status_Of_Order_To_NEW() {
+        Order order = Order.place(1L);
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.NEW);
+    }
+
+    @Test
+    void should_Give_IllegalStateException_when_money_IsMoreThan_2000() {
+        Throwable thrown = catchThrowable(() -> Order.place(1L));
+        assertThat(thrown)
+                .isInstanceOf(IllegalStateException.class);
+    }
+
 
 }
